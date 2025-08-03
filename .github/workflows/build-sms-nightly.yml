@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
   #add cron when needed
 
+permissions:
+  contents: write #repo contents
+  packages: write #for ghcr
+
 jobs:
   build:
     runs-on: ubuntu-latest
