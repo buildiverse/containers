@@ -2,8 +2,8 @@ name: Build base image
 
 on:
   push:
-    tags:
-      - "v*.*.*"
+    branches:
+      - main
 
 permissions:
   contents: write #repo contents
@@ -36,4 +36,4 @@ jobs:
           file: ./setup/Base.dockerfile
           push: true
           platforms: linux/amd64, linux/arm64
-          tags: ghcr.io/buildiverse/containers:${{ github.ref_name }}
+          tags: ghcr.io/buildiverse/containers:test
