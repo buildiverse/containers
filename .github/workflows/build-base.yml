@@ -1,10 +1,9 @@
 name: Build base image
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - test
+    tags:
+      - "v*.*.*"
 
 permissions:
   contents: write #repo contents
@@ -37,4 +36,4 @@ jobs:
           file: ./setup/Base.dockerfile
           push: true
           platforms: linux/amd64, linux/arm64
-          tags: ghcr.io/buildiverse/containers:test
+          tags: ghcr.io/buildiverse/containers:base-${{ github.ref_name }}
