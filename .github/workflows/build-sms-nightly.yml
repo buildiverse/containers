@@ -1,0 +1,37 @@
+name: Build shared-media-streaming nightly
+
+on:
+  workflow_dispatch:
+  #add cron when needed
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+
+      - name: Checkout shared-media-streaming
+        uses: actions/checkout@v4
+        with:
+          repository: buildiverse/shared-media-streaming
+          ref: main
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          platforms: linux/amd64, linux/arm64
+          tags: ghcr.io/buildiverse/containers:sms-nightly

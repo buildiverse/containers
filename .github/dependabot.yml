@@ -8,4 +8,4 @@ updates:
   - package-ecosystem: "docker"
     directory: "./setup"
     schedule:
-      interval: "monthly"
+      interval: "weekly"
