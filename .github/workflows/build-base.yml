@@ -3,7 +3,7 @@ name: Build base image
 on:
   push:
     branches:
-      - main
+      - test
 
 permissions:
   contents: write #repo contents
