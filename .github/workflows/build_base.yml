@@ -1,0 +1,39 @@
+name: Build base image
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write #repo contents
+  packages: write #for ghcr
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./setup/Base.dockerfile
+          push: true
+          platforms: linux/amd64, linux/arm64
+          tags: ghcr.io/buildiverse/containers:${{ github.ref_name }}
