@@ -1,4 +1,4 @@
-FROM node:24.5.0-slim
+FROM node:24.10.0-slim
 
 RUN apt-get update && \
     apt-get upgrade -y && \
